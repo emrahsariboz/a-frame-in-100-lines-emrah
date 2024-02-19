@@ -45,6 +45,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
+  console.log("Someone cliicked 1")
   return getResponse(req);
 }
 
