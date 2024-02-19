@@ -37,7 +37,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       throw (`non-200 status returned from neynar : ${resp.status}`);
     }
 
-    console.log("The address is: ", resp.json())
+    const responseBody = await resp.json();
+
+    console.log("The address is: ", responseBody.result.verifications);
   }
 
   if (message?.input) {
