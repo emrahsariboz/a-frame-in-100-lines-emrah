@@ -1,5 +1,5 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
-import { getFarcasterUserAddress } from '/Users/emrahsariboz/Desktop/a-frame-in-100-lines-emrah/node_modules/@coinbase/onchainkit/src/farcaster';
+import { getFarcasterUserAddress } from '/Users/emrahsariboz/Desktop/a-frame-in-100-lines-emrah/node_modules/@coinbase/onchainkit/src/farcaster/index';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
