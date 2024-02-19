@@ -12,9 +12,34 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
 
   if (isValid) {
-    await handleValidMessage(message);
-  }
+    console.log("Just clicked!");
 
+    accountAddress = message.interactor.verified_accounts[0];
+    const fid = message.interactor.fid
+    console.log("The FID is", fid);
+    console.log("The message is", message);
+    console.log("The custody address is:", message.interactor.custody_address);
+
+    const url = `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`;
+
+    const options = {
+      method: 'GET',
+      url: url,
+      headers: {
+        accept: 'application/json',
+        api_key: 'NEYNAR_ONCHAIN_KIT',
+        'content-type': 'application/json',
+        onchainkit_version: '0.7.0',
+      },
+    };
+    const resp = await fetch(options.url, options);
+    if (resp.status !== 200) {
+      throw (`non-200 status returned from neynar : ${resp.status}`);
+    }
+
+    const responseBody = await resp.json();
+
+  }
 
   if (message?.input) {
     text = message.input;
@@ -44,37 +69,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
       postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
     }),
   );
-}
-
-async function handleValidMessage(message) {
-  console.log("Just clicked!");
-
-  const accountAddress = message.interactor.verified_accounts[0];
-  const fid = message.interactor.fid;
-  console.log("The FID is", fid);
-  console.log("The message is", message);
-  console.log("The custody address is:", message.interactor.custody_address);
-
-  const url = `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`;
-
-  const options = {
-    method: 'GET',
-    url: url,
-    headers: {
-      accept: 'application/json',
-      api_key: 'NEYNAR_ONCHAIN_KIT',
-      'content-type': 'application/json',
-      onchainkit_version: '0.7.0',
-    },
-  };
-  const resp = await fetch(options.url, options);
-  if (resp.status !== 200) {
-    throw new Error(`non-200 status returned from neynar: ${resp.status}`);
-  }
-
-  const responseBody = await resp.json();
-
-  console.log("The address is: ", responseBody.result.verifications);
 }
 
 export async function POST(req: NextRequest): Promise<Response> {
