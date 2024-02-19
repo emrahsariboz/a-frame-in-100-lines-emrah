@@ -16,7 +16,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     accountAddress = message.interactor.verified_accounts[0];
     console.log("The FID is", message.interactor.fid);
-    console.log("The accountAddress is", accountAddress);
+    console.log("The message is", message);
+    console.log("The address is:", message.interactor.custody_address);
     // console.log("The address is: ", await getFarcasterUserAddress(message.interactor.fid))
   }
 
