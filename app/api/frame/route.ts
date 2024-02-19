@@ -1,5 +1,4 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
-import { getFarcasterUserAddress } from "/Users/emrahsariboz/Desktop/a-frame-in-100-lines-emrah/node_modules/@coinbase/onchainkit/src/farcaster/index"
 
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -23,8 +22,22 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     const url = `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`;
 
+    const options = {
+      method: 'GET',
+      url: url,
+      headers: {
+        accept: 'application/json',
+        api_key: 'NEYNAR_ONCHAIN_KIT',
+        'content-type': 'application/json',
+        onchainkit_version: '0.7.0',
+      },
+    };
+    const resp = await fetch(options.url, options);
+    if (resp.status !== 200) {
+      throw (`non-200 status returned from neynar : ${resp.status}`);
+    }
 
-    // console.log("The address is: ", await getFarcasterUserAddress(message.interactor.fid))
+    console.log("The address is: ", resp.json())
   }
 
   if (message?.input) {
