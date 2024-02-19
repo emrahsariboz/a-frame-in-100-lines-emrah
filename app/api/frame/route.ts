@@ -1,5 +1,6 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
-// import { getFarcasterUserAddress } from '@coinbase/onchainkit/farcaster';
+import { getFarcasterUserAddress } from "/Users/emrahsariboz/Desktop/a-frame-in-100-lines-emrah/node_modules/@coinbase/onchainkit/src/farcaster/index"
+
 
 import { NextRequest, NextResponse } from 'next/server';
 import { NEXT_PUBLIC_URL } from '../../config';
@@ -15,9 +16,14 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.log("Just clicked!");
 
     accountAddress = message.interactor.verified_accounts[0];
-    console.log("The FID is", message.interactor.fid);
+    const fid = message.interactor.fid
+    console.log("The FID is", fid);
     console.log("The message is", message);
-    console.log("The address is:", message.interactor.custody_address);
+    console.log("The custody address is:", message.interactor.custody_address);
+
+    const url = `https://api.neynar.com/v1/farcaster/custody-address?fid=${fid}`;
+
+
     // console.log("The address is: ", await getFarcasterUserAddress(message.interactor.fid))
   }
 
