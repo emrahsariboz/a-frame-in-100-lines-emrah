@@ -10,6 +10,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
 
   if (isValid) {
+    console.log("Just clicked!");
     accountAddress = message.interactor.verified_accounts[0];
   }
 
@@ -17,12 +18,16 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     text = message.input;
   }
 
-  if (message?.button === 3) {
-    return NextResponse.redirect(
-      'https://www.google.com/search?q=cute+dog+pictures&tbm=isch&source=lnms',
-      { status: 302 },
-    );
+  if (message?.button === 1) {
+    console.log("Someone cliicked 1")
   }
+
+  // if (message?.button === 3) {
+  //   return NextResponse.redirect(
+  //     'https://www.google.com/search?q=cute+dog+pictures&tbm=isch&source=lnms',
+  //     { status: 302 },
+  //   );
+  // }
 
   return new NextResponse(
     getFrameHtmlResponse({
